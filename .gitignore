@@ -22,6 +22,14 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Visual Studio Project Folders
 backend/.vs
-
 frontend/.vs
+
+# ASP.NET Core Secrets
+appsettings.Development.json
+backend/backend/appsettings.Development.json
+
+# Optional Production Secrets
+appsettings.Local.json
+backend/backend/appsettings.Local.json
