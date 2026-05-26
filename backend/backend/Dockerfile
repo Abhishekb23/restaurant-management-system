@@ -1,21 +1,14 @@
-# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 ARG BUILD_CONFIGURATION=Release
 
 WORKDIR /src
 
-# Copy csproj first
-COPY ["backend/backend.csproj", "backend/"]
-
-# Restore dependencies
-RUN dotnet restore "backend/backend.csproj"
-
 # Copy everything
 COPY . .
 
-# Go to project folder
-WORKDIR "/src/backend"
+# Restore dependencies
+RUN dotnet restore "backend.csproj"
 
 # Publish app
 RUN dotnet publish "backend.csproj" \
@@ -23,16 +16,16 @@ RUN dotnet publish "backend.csproj" \
     -o /app/publish \
     /p:UseAppHost=false
 
-# Runtime stage
+# Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 
 WORKDIR /app
 
-# Render uses PORT environment variable
+COPY --from=build /app/publish .
+
+# Render port
 ENV ASPNETCORE_URLS=http://+:10000
 
 EXPOSE 10000
-
-COPY --from=build /app/publish .
 
 ENTRYPOINT ["dotnet", "backend.dll"]
