@@ -1,0 +1,199 @@
+<div class="flex items-center justify-center w-full">
+
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+
+        <!-- HEADER -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">
+
+                @if (mode === 'login') {
+                Welcome back, <span class="text-blue-600">Partner</span>
+                }
+
+                @else if (mode === 'register') {
+                Create your <span class="text-blue-600">restaurant</span> account
+                }
+
+                @else {
+                Sign in with OTP
+                }
+
+            </h2>
+
+            <p class="text-gray-500 mt-2 text-sm">
+                {{ mode === 'login'
+                ? 'Sign in to manage your restaurant dashboard, orders, and performance'
+                : mode === 'register'
+                ? 'Join our platform to grow your business, reach more customers, and manage orders easily'
+                : 'Enter the 6-digit OTP sent to your registered email to access your dashboard'
+                }}
+            </p>
+        </div>
+
+        <!-- SEGMENTED TABS -->
+        <div class="flex bg-gray-100 rounded-2xl p-1 mb-8">
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition" [class.bg-white]="mode === 'login'"
+                [class.shadow]="mode === 'login'" [class.text-blue-600]="mode === 'login'" (click)="mode = 'login'">
+                Login
+            </button>
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition"
+                [class.bg-white]="mode === 'register'" [class.shadow]="mode === 'register'"
+                [class.text-blue-600]="mode === 'register'" (click)="mode = 'register'">
+                Register
+            </button>
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition" [class.bg-white]="mode === 'otp'"
+                [class.shadow]="mode === 'otp'" [class.text-blue-600]="mode === 'otp'" (click)="mode = 'otp'">
+                OTP
+            </button>
+
+        </div>
+
+        <!-- LOGIN FORM -->
+        @if (mode === 'login') {
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <!-- Toggle button -->
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Sign In
+            </button>
+
+        </form>
+        }
+
+        <!-- REGISTER FORM -->
+        @if (mode === 'register') {
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName" />
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <div class="flex gap-2 w-full">
+
+                <!-- COUNTRY CODE -->
+                <mat-form-field appearance="fill" class="w-1/3">
+                    <mat-label>Code</mat-label>
+                    <mat-select formControlName="countryCode">
+                        <mat-option value="+91">
+                            🇮🇳 India (+91)
+                        </mat-option>
+                        <mat-option value="+977">
+                            🇳🇵 Nepal (+977)
+                        </mat-option>
+                        <mat-option value="+975">
+                            🇧🇹 Bhutan (+975)
+                        </mat-option>
+                        <mat-option value="+94">
+                            🇱🇰 Sri Lanka (+94)
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- PHONE NUMBER -->
+                <mat-form-field appearance="fill" class="w-2/3">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput type="tel" formControlName="phone" placeholder="Enter phone number" />
+                    <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="space-y-1">
+                <mat-form-field appearance="fill" class="w-full -mb-6">
+                    <mat-label>Restaurant URL (unique name)</mat-label>
+                    <input matInput formControlName="restaurantSlug" />
+                </mat-form-field>
+
+                <div class="ml-3 text-sm text-gray-600">
+                    Your restaurant will be accessible at:
+                    <span class="font-semibold text-blue-600">
+                        {{ baseUrl }}/{{ registerForm.value.restaurantSlug || '' }}
+                    </span>
+                </div>
+            </div>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <!-- Toggle button -->
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Create Account
+            </button>
+        </form>
+        }
+
+        <!-- OTP FORM -->
+        @if (mode === 'otp') {
+        <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="destination" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <button type="button" mat-stroked-button class="w-full !h-11 !rounded-xl" (click)="sendOtp()">
+                Send OTP
+            </button>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>OTP Code</mat-label>
+                <input matInput formControlName="code" maxlength="6" inputmode="numeric" />
+                @if (otpForm.get('code')?.valid) {
+                <mat-icon matSuffix class="text-green-600">verified</mat-icon>
+                }
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Verify OTP
+            </button>
+
+        </form>
+        }
+
+        <!-- GOOGLE -->
+        <div class="mt-6">
+            <button mat-stroked-button
+                class="w-full !h-12 !rounded-xl !font-semibold flex items-center justify-center gap-2">
+                <span class="flex items-center gap-2">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+                        class="w-5 h-5 block" />
+                    <span class="leading-none">Continue with Google</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

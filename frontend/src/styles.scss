@@ -17,3 +17,21 @@ body
     "Helvetica Neue",
     sans-serif;
 }
+
+.dark {
+  background: #0f172a; /* page background */
+  // color: #ffffff;
+  color: blue;
+}
+
+.dark {
+  --mat-sys-background: #0f172a;
+  --mat-sys-surface: #111827;
+  --mat-sys-on-surface: #ffffff;
+}
+
+.mat-mdc-select-panel {
+  background: #fff !important;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}

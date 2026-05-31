@@ -1,0 +1,114 @@
+<header class="fixed top-[12px] left-[15px] right-[15px] z-50">
+
+    <nav class="h-16 px-4 backdrop-blur-md border border-gray-200 rounded-xl shadow-lg">
+
+        <div class="h-full flex items-center justify-between">
+
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold">
+                    R
+                </div>
+
+                <div>
+                    <h2 class="font-bold">
+                        Restaurant
+                    </h2>
+                </div>
+
+            </div>
+
+            <!-- Search -->
+            <div class="hidden md:flex flex-1 max-w-xl mx-8">
+
+                <div
+                    class="w-full h-11 bg-gray-100 rounded-xl px-4 flex items-center gap-3 border border-transparent hover:border-gray-300 transition">
+
+                    <mat-icon class="text-gray-400 text-[20px]">
+                        search
+                    </mat-icon>
+
+                    <input type="text" placeholder="Search restaurants, cuisines..."
+                        class="bg-transparent flex-1 outline-none text-sm text-gray-700 placeholder:text-gray-400">
+
+                </div>
+
+            </div>
+
+            <!-- Desktop Actions -->
+            <div class="hidden md:flex items-center gap-3">
+
+                <button mat-icon-button class="!w-10 !h-10 !rounded-xl bg-gray-100" (click)="toggleDarkMode()">
+                    <mat-icon>dark_mode</mat-icon>
+                </button>
+
+                <!-- <button class="h-11 px-5 rounded-xl border border-gray-300 font-medium hover:bg-gray-50 transition" routerLink="/login">
+                    Sing UP
+                </button> -->
+
+                <button class="h-11 px-5 rounded-xl bg-blue-600 text-white font-medium shadow-md hover:bg-blue-700 transition" routerLink="/login">
+                    Login
+                </button>
+
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="md:hidden">
+
+                <button mat-icon-button (click)="mobileMenuOpen = !mobileMenuOpen">
+
+                    <mat-icon>
+                        menu
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- Mobile Dropdown -->
+
+    @if (mobileMenuOpen) {
+
+    <div class="md:hidden mt-3 bg-white rounded-xl shadow-xl border border-gray-200 p-4">
+
+        <!-- Search -->
+
+        <div class="h-11 bg-gray-100 rounded-xl px-4 flex items-center gap-3">
+
+            <mat-icon class="text-gray-400">
+                search
+            </mat-icon>
+
+            <input type="text" placeholder="Search..." class="bg-transparent flex-1 outline-none text-sm">
+
+        </div>
+
+        <!-- Actions -->
+
+        <div class="flex flex-col gap-3 mt-4">
+
+            <!-- <button class="h-11 rounded-xl border border-gray-300 font-medium">
+                Login
+            </button> -->
+
+            <button class="h-11 rounded-xl bg-blue-600 text-white font-medium" routerLink="/login">
+                Login
+            </button>
+
+            <button class="h-11 rounded-xl bg-gray-100 font-medium flex items-center justify-center gap-2" (click)="toggleDarkMode()">
+                <mat-icon>dark_mode</mat-icon>
+                Dark Mode
+            </button>
+
+        </div>
+
+    </div>
+
+    }
+
+</header>

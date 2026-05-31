@@ -1,0 +1,146 @@
+<div class="flex items-center justify-center w-full">
+
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+
+        <!-- HEADER -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">
+                {{ mode === 'login' ? 'Welcome Back'
+                : mode === 'register' ? 'Create your account'
+                : 'Sign in with OTP' }}
+            </h2>
+
+            <p class="text-gray-500 mt-2 text-sm">
+                {{ mode === 'login' ? 'Sign in to your account to continue ordering your favorite meals'
+                : mode === 'register' ? 'Join us and explore restaurants, offers, and fast delivery near you'
+                : 'Enter the 6-digit code sent to your email to continue' }}
+            </p>
+        </div>
+
+        <!-- SEGMENTED TABS -->
+        <div class="flex bg-gray-100 rounded-2xl p-1 mb-8">
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition" [class.bg-white]="mode === 'login'"
+                [class.shadow]="mode === 'login'" [class.text-blue-600]="mode === 'login'" (click)="mode = 'login'">
+
+                Login
+            </button>
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition"
+                [class.bg-white]="mode === 'register'" [class.shadow]="mode === 'register'"
+                [class.text-blue-600]="mode === 'register'" (click)="mode = 'register'">
+
+                Register
+            </button>
+
+            <button class="flex-1 py-2 text-sm font-semibold rounded-xl transition" [class.bg-white]="mode === 'otp'"
+                [class.shadow]="mode === 'otp'" [class.text-blue-600]="mode === 'otp'" (click)="mode = 'otp'">
+                OTP
+            </button>
+
+        </div>
+
+        <!-- LOGIN FORM -->
+        @if (mode === 'login') {
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <!-- Toggle button -->
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Sign In
+            </button>
+
+        </form>
+        }
+
+        <!-- REGISTER FORM -->
+        @if (mode === 'register') {
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName" />
+                <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <!-- Toggle button -->
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+                    <mat-icon>
+                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                    </mat-icon>
+                </button>
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Create Account
+            </button>
+
+        </form>
+        }
+
+        <!-- OTP FORM -->
+        @if (mode === 'otp') {
+        <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="space-y-5">
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="destination" />
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <button type="button" mat-stroked-button class="w-full !h-11 !rounded-xl" (click)="sendOtp()">
+                Send OTP
+            </button>
+
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>OTP Code</mat-label>
+                <input matInput formControlName="code" maxlength="6" inputmode="numeric" />
+                @if (otpForm.get('code')?.valid) {
+                <mat-icon matSuffix class="text-green-600">verified</mat-icon>
+                }
+            </mat-form-field>
+
+            <button matButton="outlined" color="primary" class="w-full !h-12 !rounded-xl !text-base !font-semibold">
+                Verify OTP
+            </button>
+
+        </form>
+        }
+
+        <!-- GOOGLE -->
+        <div class="mt-6">
+            <button mat-stroked-button (click)="redirectToGoogleLogin()"
+                class="w-full !h-12 !rounded-xl !font-semibold flex items-center justify-center gap-2">
+                <span class="flex items-center gap-2">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+                        class="w-5 h-5 block" />
+                    <span class="leading-none">Continue with Google</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>

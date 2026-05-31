@@ -1,5 +1,5 @@
 import { Injectable, inject }
-from '@angular/core';
+  from '@angular/core';
 
 import {
   HttpClient
@@ -18,16 +18,15 @@ export class AuthService {
   private http =
     inject(HttpClient);
 
-  private api =
-    'https://backend-cbdg.onrender.com/api/auth';
+  // private api = 'https://backend-cbdg.onrender.com/api/auth';
+  private api = 'http://localhost:5029/api/auth';
 
   login(data: any): Observable<any> {
     return this.http.post(
       `${this.api}/login`,
       data
     ).pipe(
-      tap((res: any) =>
-      {
+      tap((res: any) => {
         localStorage.setItem(
           'token',
           res.token
@@ -43,55 +42,64 @@ export class AuthService {
     );
   }
 
-  googleLogin()
-  {
+  restaurantLogin(data: any): Observable<any> {
+    return this.http.post(
+      `${this.api}/restaurant-login`,
+      data
+    );
+  }
+
+  restaurantSignup(data: any): Observable<any> {
+    return this.http.post(
+      `${this.api}/restaurant-register`,
+      data
+    );
+  }
+
+  googleLogin() {
     window.location.href =
       `${this.api}/google-login`;
   }
 
-  logout()
-  {
+  logout() {
     localStorage.removeItem(
       'token'
     );
   }
 
-  getToken()
-  {
+  getToken() {
     return localStorage.getItem(
       'token'
     );
   }
 
-  isLoggedIn()
-  {
+  isLoggedIn() {
     return !!this.getToken();
   }
-  sendOtp(email: string)
-  {
+  sendOtp(email: string) {
     return this.http.post(
       `${this.api}/send-otp`,
       {
         destination: email,
-  
+
         type: 'EMAIL'
       }
     );
   }
 
-verifyOtp(data: any)
-{
-  return this.http.post(
-    `${this.api}/verify-otp`,
-    {
-      destination:
-        data.destination,
+  verifyOtp(data: any) {
+    return this.http.post(
+      `${this.api}/verify-otp`,
+      {
+        destination:
+          data.destination,
 
-      code:
-        data.code,
+        code:
+          data.code,
 
-      type:
-        'EMAIL'
-    }
-  );
-}}
+        type:
+          'EMAIL'
+      }
+    );
+  }
+}

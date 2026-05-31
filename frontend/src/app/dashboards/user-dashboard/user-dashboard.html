@@ -1,0 +1,175 @@
+<div class="min-h-screen bg-[#F2F8FF]">
+
+  <!-- SEARCH -->
+  <section class="px-4 md:px-8 py-6">
+
+    <div class="max-w-7xl mx-auto">
+
+      <div class="bg-white rounded-2xl shadow-sm p-3 flex items-center gap-3">
+
+        <mat-icon class="text-gray-400">
+          search
+        </mat-icon>
+
+        <input
+          type="text"
+          placeholder="Search food..."
+          class="flex-1 outline-none bg-transparent"
+        />
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CATEGORY -->
+  <section class="px-4 md:px-8">
+
+    <div class="max-w-7xl mx-auto flex gap-4 overflow-x-auto pb-2">
+
+      @for(cat of categories; track cat.id) {
+
+      <button
+        (click)="selectedCategory = cat.name"
+        class="min-w-[120px] bg-white rounded-2xl p-4 shadow-sm border transition"
+        [class.border-blue-600]="selectedCategory === cat.name">
+
+        <mat-icon class="text-blue-600">
+          {{cat.icon}}
+        </mat-icon>
+
+        <p class="mt-2 font-semibold">
+          {{cat.name}}
+        </p>
+
+      </button>
+
+      }
+
+    </div>
+
+  </section>
+
+  <!-- CONTENT -->
+  <section class="px-4 md:px-8 py-6">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6">
+
+      <!-- PRODUCTS -->
+      <div>
+
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
+          @for(food of foods; track food.id) {
+
+          <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
+
+            <img
+              [src]="food.image"
+              [alt]="food.name"
+              class="h-52 w-full object-cover"
+            />
+
+            <div class="p-4">
+
+              <div class="flex justify-between">
+
+                <h3 class="font-bold">
+                  {{food.name}}
+                </h3>
+
+                <span class="text-green-600 font-semibold">
+                  ${{food.price}}
+                </span>
+
+              </div>
+
+              <div class="flex items-center gap-2 mt-2">
+
+                <mat-icon class="text-yellow-500">
+                  star
+                </mat-icon>
+
+                <span>{{food.rating}}</span>
+
+              </div>
+
+              <button
+                mat-flat-button
+                color="primary"
+                class="!w-full !mt-4">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- CART -->
+      <aside
+        class="bg-white rounded-3xl shadow-sm p-5 h-fit sticky top-24">
+
+        <h3 class="text-xl font-bold mb-4">
+          Your Cart
+        </h3>
+
+        @for(item of cart; track item.name) {
+
+        <div
+          class="flex justify-between py-3 border-b">
+
+          <div>
+            <p class="font-medium">
+              {{item.name}}
+            </p>
+            <p class="text-sm text-gray-500">
+              Qty {{item.qty}}
+            </p>
+          </div>
+
+          <div>
+            ${{item.price}}
+          </div>
+
+        </div>
+
+        }
+
+        <div class="flex justify-between mt-6">
+
+          <span class="font-bold">
+            Total
+          </span>
+
+          <span class="font-bold text-green-600">
+            ${{total}}
+          </span>
+
+        </div>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="!w-full !mt-6 !h-12">
+
+          Checkout
+
+        </button>
+
+      </aside>
+
+    </div>
+
+  </section>
+
+</div>
